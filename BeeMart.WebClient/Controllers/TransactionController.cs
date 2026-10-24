@@ -5,4 +5,5 @@ namespace BeeMart.WebClient.Controllers;
 public class TransactionController : Controller
 {
     public IActionResult Index() => View();
+    public IActionResult History() => View();
 }

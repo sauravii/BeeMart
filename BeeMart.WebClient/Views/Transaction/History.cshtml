@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "History Transaction";
+}
+
+<div class="tabs">
+    <a href="/Transaction" class="tab">New Transaction</a>
+    <a href="/Transaction/History" class="tab active">History Transaction</a>
+</div>
+
+<p class="scope-text">Pencarian Data Transaksi <b id="scopeLabel"></b></p>
+
+<div class="filter-row">
+    <label for="filterDate"><b>Pilih Tanggal:</b></label>
+    <input type="date" id="filterDate" />
+    <button type="button" id="btnSearch" class="btn-blue btn-primary">Cari Data</button>
+</div>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>No. Transaksi</th>
+            <th>Tanggal &amp; Jam</th>
+            <th>Kasir</th>
+            <th class="text-center">Jml Item</th>
+            <th>Pembayaran</th>
+            <th class="text-right">Total Harga</th>
+        </tr>
+    </thead>
+    <tbody id="historyBody">
+        <tr><td colspan="6" class="empty">Pilih tanggal lalu klik "Cari Data".</td></tr>
+    </tbody>
+</table>
+
+<div id="pagination" class="pagination"></div>
+
+@section Scripts {
+    <script src="~/js/history.js" asp-append-version="true"></script>
+}
