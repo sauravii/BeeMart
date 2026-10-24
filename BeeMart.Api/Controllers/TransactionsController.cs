@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Security.Claims;
 using Asp.Versioning;
 using BeeMart.Api.Dtos;
 using BeeMart.Api.Models;
@@ -18,6 +19,11 @@ public class TransactionsController : ControllerBase
     public TransactionsController(BeeMartContext db) => _db = db;
 
     private string CurrentUserId => User.FindFirst("IdUser")!.Value;
+
+    private string CurrentRole =>
+        User.FindFirst(ClaimTypes.Role)?.Value
+        ?? User.FindFirst("Role")?.Value
+        ?? "";
 
     // Format: [5 digit IdUser][ddMMyy][3 digit nomor urut hari itu]
     private async Task<string> BuildNextInvoiceAsync(string idUser)
@@ -47,6 +53,53 @@ public class TransactionsController : ControllerBase
     {
         var invoice = await BuildNextInvoiceAsync(CurrentUserId);
         return Ok(new { invoiceNo = invoice });
+    }
+
+    [HttpGet("history")]
+    public async Task<IActionResult> History([FromQuery] DateTime? date, [FromQuery] int page = 1)
+    {
+        if (date is null)
+            return BadRequest(new { message = "Tanggal transaksi wajib dipilih." });
+
+        if (page < 1) page = 1;
+        const int pageSize = 20;
+
+        var start = date.Value.Date;
+        var end = start.AddDays(1);
+
+        var isAdmin = string.Equals(CurrentRole, "Admin", StringComparison.OrdinalIgnoreCase);
+        var userId = CurrentUserId;
+
+        var baseQuery =
+            from t in _db.TrTransactions.AsNoTracking()
+            join u in _db.MsUsers on t.IdUser equals u.IdUser
+            join p in _db.LtPaymentMethods on t.IdPaymentMethod equals p.IdPaymentMethod
+            where t.Stsrc && t.TransactionDate >= start && t.TransactionDate < end
+            select new { t, u, p };
+
+        if (!isAdmin)
+            baseQuery = baseQuery.Where(x => x.t.IdUser == userId);
+
+        var totalCount = await baseQuery.CountAsync();
+
+        var items = await baseQuery
+            .OrderBy(x => x.t.TransactionDate)
+            .ThenBy(x => x.t.InvoiceNo)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(x => new HistoryItemDto(
+                x.t.InvoiceNo,
+                x.t.TransactionDate,
+                x.u.FullName,
+                _db.TrTransactionDetails
+                    .Where(d => d.IdTransaction == x.t.IdTransaction && d.Stsrc)
+                    .Sum(d => d.Qty),
+                x.p.MethodName,
+                x.t.TotalPrice))
+            .ToListAsync();
+
+        var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+        return Ok(new PagedResult<HistoryItemDto>(items, page, pageSize, totalCount, totalPages));
     }
 
     [HttpPost]
