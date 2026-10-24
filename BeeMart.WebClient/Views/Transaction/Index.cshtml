@@ -1,2 +1,50 @@
 @{ ViewData["Title"] = "New Transaction"; }
-<p>Halaman New Transaction akan dibuat di langkah berikutnya.</p>
+
+<div class="tabs">
+  <a class="tab active" href="/Transaction">New Transaction</a>
+  <a class="tab" href="/Transaction/History">History Transaction</a>
+</div>
+
+<div class="invoice-bar">Invoice No: <span id="invoiceNo" class="mono">-</span></div>
+
+<label for="search" class="hint">Cari Barang (Ketik: Apel / Susu, lalu tekan Enter)</label>
+<input id="search" type="text" class="input" placeholder="Ketik nama barang..." />
+
+<div id="resultBox" class="hidden">
+  <table class="tbl">
+    <thead>
+      <tr><th>Nama Barang</th><th>Berat</th><th>Stock</th><th>Harga</th><th>Diskon</th><th>Aksi</th></tr>
+    </thead>
+    <tbody id="resultBody"></tbody>
+  </table>
+</div>
+
+<div id="pickPanel" class="pick-panel hidden">
+  <b>Barang Terpilih: <span id="pickName"></span></b>
+  <div class="pick-row">
+    <span>Harga Satuan: <b id="pickPrice"></b></span>
+    <span>Sisa Stock: <b id="pickStock"></b></span>
+    <label>Qty: <input id="pickQty" type="number" min="1" value="1" class="qty" /></label>
+    <button id="btnAddCart" class="btn-blue">Masukkan ke Keranjang</button>
+  </div>
+</div>
+
+<h3>Daftar Belanjaan</h3>
+<table class="tbl">
+  <thead>
+    <tr><th>Nama Barang</th><th>Harga</th><th>Diskon</th><th>Qty</th><th>Subtotal</th><th>Aksi</th></tr>
+  </thead>
+  <tbody id="cartBody"></tbody>
+</table>
+
+<div class="total" id="totalText">Total: Rp 0</div>
+
+<div class="pay-row">
+  <label for="payment">Metode Pembayaran:</label>
+  <select id="payment"></select>
+</div>
+<button id="btnSubmit" class="btn-blue btn-block">Submit Transaksi</button>
+
+@section Scripts {
+  <script src="~/js/transaction.js"></script>
+}
