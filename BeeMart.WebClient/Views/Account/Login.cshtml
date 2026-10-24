@@ -1,0 +1,32 @@
+@{ Layout = null; }
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BeeMart Login</title>
+  <link rel="stylesheet" href="~/css/app.css" />
+  <link rel="stylesheet" href="~/css/auth.css" />
+</head>
+<body class="auth-page">
+  <div class="card">
+    <h2>BeeMart Login</h2>
+    <label for="username">Username</label>
+    <input id="username" type="text" />
+    <label for="password">Password</label>
+    <input id="password" type="password" />
+    <label for="role">Role</label>
+    <select id="role">
+      <option value="Cashier">Kasir</option>
+      <option value="Admin">Admin</option>
+    </select>
+    <button id="btnLogin">Login</button>
+    <a class="link" href="/Account/Register">Belum punya akun? Register</a>
+  </div>
+  <div id="toast"></div>
+
+  <script src="~/js/config.js"></script>
+  <script src="~/js/common.js"></script>
+  <script src="~/js/login.js"></script>
+</body>
+</html>

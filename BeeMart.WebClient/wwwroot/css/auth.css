@@ -1,0 +1,14 @@
+body.auth-page { min-height: 100vh; display: flex;
+  align-items: center; justify-content: center; }
+.card { width: 340px; background: #fff; padding: 24px; border-radius: 8px;
+  border-top: 4px solid #2196f3; box-shadow: 0 2px 10px rgba(0,0,0,.1); }
+.card h2 { margin: 0 0 16px; text-align: center; color: #1e7bd6; }
+.card label { display: block; margin: 12px 0 4px; font-size: 13px; font-weight: bold; }
+.card input, .card select { width: 100%; padding: 9px;
+  border: 1px solid #b7dcf5; border-radius: 4px; }
+.card button { width: 100%; margin-top: 18px; padding: 10px; border: 0;
+  border-radius: 4px; background: #2196f3; color: #fff;
+  font-weight: bold; cursor: pointer; }
+.card button:hover { background: #1b84d8; }
+.card .link { display: block; margin-top: 14px; text-align: center;
+  font-size: 12px; color: #2196f3; text-decoration: none; font-weight: bold; }

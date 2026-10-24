@@ -1,0 +1,18 @@
+* { box-sizing: border-box; font-family: Arial, sans-serif; }
+body { margin: 0; background: #e3f2fd; }
+
+.topbar { display: flex; justify-content: space-between; align-items: center;
+  background: #2196f3; color: #fff; padding: 12px 24px; }
+.topbar span { margin-right: 12px; font-size: 13px; }
+.btn-red { background: #f44336; color: #fff; border: 0; border-radius: 4px;
+  padding: 6px 14px; font-weight: bold; cursor: pointer; }
+
+.container { max-width: 1000px; margin: 20px auto; background: #fff;
+  padding: 20px; border-radius: 8px; }
+
+#toast { position: fixed; top: 20px; right: 20px; padding: 12px 18px;
+  border-radius: 4px; color: #fff; opacity: 0; transition: opacity .3s;
+  pointer-events: none; z-index: 99; }
+#toast.show { opacity: 1; }
+#toast.error { background: #f44336; }
+#toast.success { background: #4caf50; }
